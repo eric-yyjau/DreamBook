@@ -10,7 +10,11 @@ class Detector:
     GPIO_TRIGGER_2 = 22   
     GPIO_ECHO_2 = 17   
 
-    THERSHOLD = 2.0
+    THERSHOLD = 3
+
+    runningSum1 = 0
+    runningSum2 = 0
+    counter = 0
 
     def setup(self, thershold = None): 
 
@@ -30,22 +34,44 @@ class Detector:
     Description:
         This function is used to calculate where the page flip occured, if/when it occured
     Return:
-        Only 3 possible values
-        1: Front Flip
-        0: No Flip
-        -1: Back Flip
+        Only 3 possible values; 1, 0, -1
     """
     def getReading(self):
-        dist1 = self.__distance(self.GPIO_TRIGGER_1, self.GPIO_ECHO_1)
-        print ("Measured Distance in sensor 1 = %.1f cm" % dist1)
+        dist1 = 0
+        dist2 = 0
+
+        while dist1 < 1 or dist2 < 1:
+            dist1 = self.getDistance(self.GPIO_TRIGGER_1, self.GPIO_ECHO_1) 
+            print ("Measured Distance in sensor 1 (pin 24 & 18) = %.1f cm" % dist1)
+            
+            dist2 = self.getDistance(self.GPIO_TRIGGER_2, self.GPIO_ECHO_2)
+            print ("Measured Distance in sensor 2 (pin 22 & 17) = %.1f cm" % dist2)
+
+        self.runningSum1 += dist1
+        self.runningSum2 += dist2
+        self.counter = self.counter + 1
+
+        flip = abs(dist1 - dist2)
+
+        if flip <= self.THERSHOLD:
+            return 0
         
-        dist2 = self.__distance(self.GPIO_TRIGGER_2, self.GPIO_ECHO_2)
-        print ("Measured Distance in sensor 2 = %.1f cm" % dist2)
-        
-        flip = dist1 - dist2
-        
-        # Check which side is the flip. If dist1 is greater than dist2 it was front flip
         return 1 if dist1 > dist2 else -1
+
+    # Get average of four readin
+    def getDistance(self, trigger, echo):
+        dist = 0
+
+        dist += self.__distance(trigger, echo)
+        dist += self.__distance(trigger, echo)
+        dist += self.__distance(trigger, echo)
+        dist += self.__distance(trigger, echo)
+
+        dist = dist / 4;
+
+
+        return dist
+
  
     def __distance(self, trigger, echo):
         # set Trigger to HIGH
@@ -56,15 +82,22 @@ class Detector:
         GPIO.output(trigger, False)
     
         StartTime = time.time()
+        tempStartTime = StartTime
         StopTime = time.time()
     
         # save StartTime
         while GPIO.input(echo) == 0:
             StartTime = time.time()
+            if StartTime > tempStartTime + 1:
+                print ("Time out when getting the start time")
+                return 0
     
         # save time of arrival
         while GPIO.input(echo) == 1:
             StopTime = time.time()
+            if StopTime > StartTime + 1:
+                print ("Time out when getting the stop time")
+                return 0
     
         # time difference between start and arrival
         TimeElapsed = StopTime - StartTime
@@ -75,4 +108,7 @@ class Detector:
         return distance
 
     def cleanup(self):
+        avg1 = float(self.runningSum1) / self.counter
+        avg2 = float(self.runningSum2) / self.counter
+        print ("Average of the first sensor: %.1f\nAverage of second sensor: %.1f" % (avg1, avg2))
         GPIO.cleanup()

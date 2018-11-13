@@ -8,7 +8,7 @@ if __name__ == '__main__':
         while True:
             flipOccured = detect.getReading()
             print ("The return boolean for the flip is = %d" % flipOccured)
-            time.sleep(0.3)
+            time.sleep(0.7)
  
         # Reset by pressing CTRL + C
     except KeyboardInterrupt:
