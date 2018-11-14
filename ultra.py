@@ -39,12 +39,11 @@ class Detector:
     def getReading(self):
         dist1 = 0
         dist2 = 0
-
         while dist1 < 1 or dist2 < 1:
-            dist1 = self.getDistance(self.GPIO_TRIGGER_1, self.GPIO_ECHO_1) 
+            dist1 = self.__distance(self.GPIO_TRIGGER_1, self.GPIO_ECHO_1) 
             print ("Measured Distance in sensor 1 (pin 24 & 18) = %.1f cm" % dist1)
             
-            dist2 = self.getDistance(self.GPIO_TRIGGER_2, self.GPIO_ECHO_2)
+            dist2 = self.__distance(self.GPIO_TRIGGER_2, self.GPIO_ECHO_2)
             print ("Measured Distance in sensor 2 (pin 22 & 17) = %.1f cm" % dist2)
 
         self.runningSum1 += dist1
@@ -57,20 +56,6 @@ class Detector:
             return 0
         
         return 1 if dist1 > dist2 else -1
-
-    # Get average of four readin
-    def getDistance(self, trigger, echo):
-        dist = 0
-
-        dist += self.__distance(trigger, echo)
-        dist += self.__distance(trigger, echo)
-        dist += self.__distance(trigger, echo)
-        dist += self.__distance(trigger, echo)
-
-        dist = dist / 4;
-
-
-        return dist
 
  
     def __distance(self, trigger, echo):
