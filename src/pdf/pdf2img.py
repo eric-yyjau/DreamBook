@@ -1,6 +1,7 @@
 from pdf2image import convert_from_path
 import cv2
 import numpy as np
+import time
 
 
 class PdfFile:
@@ -10,7 +11,7 @@ class PdfFile:
         pass
 
     def readFile(self, filename):
-        self.pages = convert_from_path(filename, 500)
+        self.pages = convert_from_path(filename)
         self.totalPgs = len(self.pages)
         return self.totalPgs
 
@@ -54,4 +55,5 @@ if __name__ == '__main__':
         if key == 27:
             print("stop")
             break
+        time.sleep(0.1)
         # else if key == 
