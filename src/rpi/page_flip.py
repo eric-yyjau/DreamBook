@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import RPi.GPIO as IO
 from time import sleep
 import time
@@ -8,6 +9,7 @@ import _thread
 
 # def ReadSensor(thread_name, detectPage, page_action):
 def ReadSensor(thread_name, det, pg):
+
 
     global page_action, detectPage
     IO.setmode(IO.BCM)
@@ -39,7 +41,7 @@ def ReadSensor(thread_name, det, pg):
             
             
 
-        if state == "hit_one" and detectPage :
+        if state == "hit_one" and detectPage:
             if time.time()-start_ts > 2.0:
                 state = "hit_two"
                 A_val = "temp"
@@ -88,5 +90,4 @@ if __name__=="__main__":
     while True:
         time.sleep(2)
         print("2 seconds")
-
 
