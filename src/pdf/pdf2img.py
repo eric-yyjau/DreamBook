@@ -5,6 +5,8 @@ import numpy as np
 
 class PdfFile:
     def __init__(self):
+        self.pages = []
+        self.totalPgs = 0
         pass
 
     def readFile(self, filename):
@@ -19,6 +21,8 @@ class PdfFile:
         else:
             print("out of range")
             return []
+    def getTotalPgs(self):
+        return self.totalPgs
 
 
 
