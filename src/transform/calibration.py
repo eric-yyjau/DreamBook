@@ -38,6 +38,7 @@ def calibration(frame_orig):
     img_h, img_w = frame_orig.shape[:2]
     corner_img = np.array([(0, 0), (img_w, 0), (0, img_h), (img_w, img_h)])
     corner_map = corner_img.copy()
+    corner_map = np.roll(corner_map,-1)
     matrix = []
     while True:
         if debug:    
@@ -52,7 +53,15 @@ def calibration(frame_orig):
             warp = False
 
         matrix = cv2.getPerspectiveTransform(np.float32(corner_img), np.float32(corner_map))
+        # center = (img_w / 2, img_h / 2)
+        # scale = 1.0
+        # angle90 = 90
+        # M = cv2.getRotationMatrix2D(center, angle90, scale)
+        # matrix = matrix*M
+
         frame_proj = cv2.warpPerspective(frame_orig, matrix, (proj_w, proj_h))
+
+
 
         if debug:  
             for pt in refPt:
@@ -67,7 +76,7 @@ def calibration(frame_orig):
             print("stop")
             break
  
-    cv2.destroyAllWindows()
+    cv2.destroyWindow(fr_trans)
     return matrix
 
 if __name__ == "__main__":
@@ -80,7 +89,7 @@ if __name__ == "__main__":
     img = cv2.resize(img, (int(width/ratio), int(height/ratio)))
 
     # set frames
-    fr_trans = "Perspective transformation"
+    fr_trans = "calibration"
     cv2.namedWindow(fr_trans)
     cv2.setMouseCallback(fr_trans, updateTransformation)
 
