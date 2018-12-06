@@ -14,32 +14,27 @@ debug = True
 proj_h = 720
 proj_w = 1280
 
-
 ## init settings
 circles = []
 refPt = []
 warp = False
 
-def mouse_drawing(event, x, y, flags, params):
-    if event == cv2.EVENT_LBUTTONDOWN:
-        print("Left click")
-        circles.append((x, y))
         
 def updateTransformation(event, x, y, flags, params):
     global refPt, warp
     if event == cv2.EVENT_LBUTTONDOWN:
-        print("click down")
         refPt.append((x, y))
         warp = False
     elif event == cv2.EVENT_LBUTTONUP:
-        print("click up")
-        circles.append((x, y))
         refPt.append((x, y))
         warp = True
 
 
 def calibration(frame_orig):
-    global corner_img, corner_map, warp
+    global warp
+    img_h, img_w = img.shape[:2]
+    corner_img = np.array([(0, 0), (img_w, 0), (0, img_h), (img_w, img_h)])
+    corner_map = corner_img.copy()
     matrix = []
     while True:
         if debug:    
@@ -80,9 +75,6 @@ if __name__ == "__main__":
     # resize img
     ratio = max(width/proj_w, height/proj_h);
     img = cv2.resize(img, (int(width/ratio), int(height/ratio)))
-    img_h, img_w = img.shape[:2]
-    corner_img = np.array([(0, 0), (img_w, 0), (0, img_h), (img_w, img_h)])
-    corner_map = corner_img.copy()
 
     # set frames
     fr_trans = "Perspective transformation"
