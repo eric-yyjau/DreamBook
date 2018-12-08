@@ -50,6 +50,7 @@ def ReadSensor():
                     B_val = "right"
                 if A_val == "left" and B_val == "right":
                     print ("front flip", A_val, B_val)
+                    page_action.append(1)
                     while True:
                         if not (IO.input(12) or IO.input(19)):
                             time.sleep(0.1)
@@ -60,6 +61,7 @@ def ReadSensor():
 
                 if A_val == "right" and B_val == "left":
                     print ("back flip", A_val, B_val)
+                    page_action.append(-1)
                     while True:
                         if not (IO.input(12) or IO.input(19)):
                             time.sleep(0.1)
