@@ -88,16 +88,11 @@ def pageShow (img, mat) :
 #     filename = imageFile + '-' + str(pageNumber) + '.jpg'
 #     img = ReadImg(filename)
     # Open CV code for transformation
-    start = time.time()
-    img = cv2.warpPerspective(img, mat, (proj_w, proj_h))
-    print("time warping: ", time.time()-start)
+    # img = cv2.warpPerspective(img, mat, (proj_w, proj_h))
+    # print("time warping: ", time.time()-start)
 
-    start = time.time()
     cv2.imshow(fr_trans, img)
-    print("time show: ", time.time()-start)
-    start = time.time()
     key = cv2.waitKey(1)
-    print("time waitkey: ", time.time()-start)
 
     return key
     
@@ -231,8 +226,8 @@ def ReadBook (pdfFile) :
     mat = np.identity(3)
     mat = calibration(img)
     # warp images
-    allPages = [pageWarp(img, mat) for img in allPages]
-
+    allPages = [pageWarp(imgResize(img), mat) for img in allPages]
+    img = allPages[0]
     print("img shape: ", img.shape)
     pageShow(img, mat)
     pageChange = 0
@@ -260,16 +255,12 @@ def ReadBook (pdfFile) :
         if pageChange==1 and pageNumber<totalPages-1 : 
             pageNumber = pageNumber + 1
             print(pageNumber)
-            start = time.time()
             # img = file.readPage(pageNumber)
             img = allPages[pageNumber]
-            print("time read: ", time.time()-start)
-            start = time.time()
-            img = imgResize(img)
-            print("time resize: ", time.time()-start)
         elif pageChange==-1 and pageNumber>0 :
             pageNumber = pageNumber - 1
-            img = imgResize(file.readPage(pageNumber))
+            img = allPages[pageNumber]
+            # img = imgResize(file.readPage(pageNumber))
         time.sleep(0.01)
     detectPage = False
 #     cv2.destroyWindow(fr_trans)

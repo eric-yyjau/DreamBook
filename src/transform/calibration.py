@@ -72,7 +72,7 @@ def calibration(frame_orig):
                 cv2.circle(frame_proj, pt, 5, (0, 255, 0), -1) 
      
      
-        cv2.imshow("Frame", frame_orig)
+        # cv2.imshow("Frame", frame_orig)
         cv2.imshow(fr_trans, frame_proj)
      
         key = cv2.waitKey(1)
