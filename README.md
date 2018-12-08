@@ -18,6 +18,19 @@ https://drive.google.com/drive/u/2/folders/0AKYmLDOlkKCGUk9PVA
 Internal page:
 https://paper.dropbox.com/doc/Group-CSE218-Advanced-Topic-on-Software-Engineering-Team-6--ARrUcKT3XqIiK5V7NGjNaDWSAg-y0A4VaUAuopUyCDIImL8F
 
+### Run code
+- Installation
+```
+cd src
+chmod +x setup.sh
+
+```
+- Run code
+```
+cd src
+python3 DreamBook_merged.py
+```
+
 ### Team Members
 | Name               | PID       | Email                 | Class  |
 | ------------------ | --------- | --------------------- | ------ |

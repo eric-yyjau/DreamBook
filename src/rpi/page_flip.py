@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import RPi.GPIO as IO
 from time import sleep
 import time
