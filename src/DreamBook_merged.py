@@ -252,7 +252,12 @@ def ReadBook (pdfFile) :
         if pageChange==1 and pageNumber<totalPages-1 : 
             pageNumber = pageNumber + 1
             print(pageNumber)
-            img = imgResize(file.readPage(pageNumber))
+            start = time.time()
+            img = file.readPage(pageNumber)
+            print("time read: ", time.time()-start)
+            start = time.time()
+            img = imgResize(img)
+            print("time resize: ", time.time()-start)
         elif pageChange==-1 and pageNumber>0 :
             pageNumber = pageNumber - 1
             img = imgResize(file.readPage(pageNumber))
