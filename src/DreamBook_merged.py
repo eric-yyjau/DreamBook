@@ -151,7 +151,7 @@ def ReadSensorRpi(thread_name):
             else:
                 pass
 
-        sleep(0.01)
+        time.sleep(0.01)
 
 
 def ReadSensorOutput (threadName) :
