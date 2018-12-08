@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import subprocess
 import cv2
 from subprocess import check_output
@@ -12,14 +9,8 @@ from scipy import spatial
 import time
 import _thread
 
-
 from transform.calibration import *
 from pdf.pdf2img import PdfFile
-# from rpi.page_flip import *
-
-
-# In[2]:
-
 
 ## parameters
 proj_h = 1440
@@ -44,8 +35,6 @@ stopReading = False
 #         else if pageChange == prevPage :
 #             Read Page(-1)
 
-# In[3]:
-
 
 def get_num_pages(pdf_path):
     output = check_output(["pdfinfo", pdf_path]).decode()
@@ -69,9 +58,6 @@ def ConvertPdfToImages (pdfFile, imageFile) :
     return get_num_pages(pdfFile)
 
 
-# In[ ]:
-
-
 def imgResize(img):
 #     img = cv2.imread(imageFile)
     height, width = img.shape[:2]
@@ -86,22 +72,12 @@ def pageWarp(img, mat):
 
 def pageShow (img, mat) :
 #     filename = imageFile + '-' + str(pageNumber) + '.jpg'
-#     img = ReadImg(filename)
-    # Open CV code for transformation
-    # img = cv2.warpPerspective(img, mat, (proj_w, proj_h))
-    # print("time warping: ", time.time()-start)
-
     cv2.imshow(fr_trans, img)
     key = cv2.waitKey(1)
-
     return key
     
 def initFrame(frameName):
     cv2.namedWindow(frameName)
-
-
-# In[ ]:
-
 
 def ReadSensorRpi(thread_name):
     import RPi.GPIO as IO
@@ -178,9 +154,6 @@ def ReadSensorRpi(thread_name):
         sleep(0.01)
 
 
-# In[ ]:
-
-
 def ReadSensorOutput (threadName) :
     global page_action, detectPage
     while True:
@@ -206,31 +179,31 @@ def ReadKeyboardInput ():
     
 
 
-# In[ ]:
-
-
 def ReadBook (pdfFile) :
     global stopReading, fr_trans, page_action, detectPage
     detectPage = True
     page_action = []
+    # read pdf file
     file = PdfFile()
     totalPages = file.readFile(pdfFile)
     allPages = file.getAllPgs()
     print("total: ", totalPages)
     if totalPages < 1:
         return -1
+    # read first page
     pageNumber = 0
     img = file.readPage(pageNumber)
     img = imgResize(img)
     # calibration
     mat = np.identity(3)
     mat = calibration(img)
-    # warp images
+    # warp all pages
     allPages = [pageWarp(imgResize(img), mat) for img in allPages]
     img = allPages[0]
     print("img shape: ", img.shape)
     pageShow(img, mat)
     pageChange = 0
+    # loop and wait for key
     while (stopReading == False) : # Replace with a listener to signal end of reading
         detectPage = True
         pageChange = 0
@@ -238,9 +211,9 @@ def ReadBook (pdfFile) :
             pageChange = page_action[-1]
             print("get page change ", pageChange)
             del page_action[-1]
-        # time.sleep(0.5)
 #         pageChange = ReadSensorOutput()
 #         pageChange = ReadKeyboardInput()
+        # use key to control
         key = pageShow(img, mat)
         if key == 27:
             print("stop")
@@ -263,35 +236,8 @@ def ReadBook (pdfFile) :
             # img = imgResize(file.readPage(pageNumber))
         time.sleep(0.01)
     detectPage = False
-#     cv2.destroyWindow(fr_trans)
 
 
-# In[ ]:
-
-
-def print_time( threadName):
-       delay = 1
-       count = 0
-       while count < 5:
-          time.sleep(delay)
-          count += 1
-          print ("%s: %s" % ( threadName, time.ctime(time.time()) ))
-
-
-# In[ ]:
-
-
-def readNameFromFolder(folderName):
-    import os
-    pdfFiles = []
-    for file in os.listdir(folderName):
-        if file.endswith(".pdf"):
-            pdfFiles.append(os.path.join(folderName, file))
-            print(os.path.join(folderName, file))
-    return pdfFiles
-
-
-# In[1]:
 
 
 if __name__ == "__main__":
@@ -309,12 +255,12 @@ if __name__ == "__main__":
                 print("R pi sensor")
                 ReadSensorRpi
                 _thread.start_new_thread( ReadSensorRpi, ("Thread-1",))
-#                 _thread.start_new_thread( ReadSensor, ("Thread-1",detectPage,page_action))
             else:
                 print("Testing")
                 _thread.start_new_thread( ReadSensorOutput, ("Thread-2",))
         except:
             print ("Error: unable to start thread")
+        # start cv2 frame
         fr_trans = "Perspective transformation"
         initFrame(fr_trans)
         print("Please select a file!")
@@ -326,6 +272,7 @@ if __name__ == "__main__":
             else:
                 result = idx
             return result
+        # outer loop to control pdf file
         while True:
             cv2.imshow(fr_trans, imgBlack)
             key = cv2.waitKey(1)
@@ -343,40 +290,6 @@ if __name__ == "__main__":
                 fileIdx = IdxChange(fileIdx, +1, 0, len(pdfFiles)-1)
                 print ("detect d")
 
-
-    
     cv2.destroyAllWindows()
     
     
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-detectPage = False
-
-
-# In[ ]:
-
-
-detectPage
-ReadSensor("",1,2)
-
-
-# In[ ]:
-
-
-_thread.start_new_thread( ReadSensorRpi, ("Thread-1",))
-
-
-# In[ ]:
-
-
-
-

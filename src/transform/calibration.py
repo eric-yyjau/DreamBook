@@ -1,9 +1,6 @@
 
 # coding: utf-8
 
-# In[ ]:
-
-
 import cv2
 import numpy as np
 from scipy import spatial
@@ -16,7 +13,6 @@ proj_h = 1440
 # proj_h = 720
 proj_w = 2560
 # proj_w = 1280
-
 
 ## init settings
 circles = []
