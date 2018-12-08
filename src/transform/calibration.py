@@ -7,12 +7,16 @@
 import cv2
 import numpy as np
 from scipy import spatial
+import time
     
 debug = True  
 
 ## parameters
+# proj_h = 1440
 proj_h = 720
+# proj_w = 2560
 proj_w = 1280
+
 
 ## init settings
 circles = []
@@ -75,7 +79,7 @@ def calibration(frame_orig):
         if key == 27:
             print("stop")
             break
- 
+        time.sleep(1)
     cv2.destroyWindow(fr_trans)
     return matrix
 
