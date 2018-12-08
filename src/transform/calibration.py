@@ -12,10 +12,10 @@ import time
 debug = True  
 
 ## parameters
-# proj_h = 1440
-proj_h = 720
-# proj_w = 2560
-proj_w = 1280
+proj_h = 1440
+# proj_h = 720
+proj_w = 2560
+# proj_w = 1280
 
 
 ## init settings
@@ -79,12 +79,12 @@ def calibration(frame_orig):
         if key == 27:
             print("stop")
             break
-        time.sleep(1)
+        time.sleep(0.1)
     cv2.destroyWindow(fr_trans)
     return matrix
 
 if __name__ == "__main__":
-    filename = 'img2.jpg'
+    filename = 'img1.jpg'
     img = cv2.imread(filename)
     height, width = img.shape[:2]
 
