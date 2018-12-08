@@ -237,6 +237,14 @@ def ReadBook (pdfFile) :
         time.sleep(0.01)
     detectPage = False
 
+def readNameFromFolder(folderName):
+    import os
+    pdfFiles = []
+    for file in os.listdir(folderName):
+        if file.endswith(".pdf"):
+            pdfFiles.append(os.path.join(folderName, file))
+            print(os.path.join(folderName, file))
+    return pdfFiles
 
 
 
