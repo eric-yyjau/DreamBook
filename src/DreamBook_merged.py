@@ -235,7 +235,7 @@ def ReadBook (pdfFile) :
             pageChange = page_action[-1]
             print("get page change ", pageChange)
             del page_action[-1]
-        time.sleep(0.5)
+        # time.sleep(0.5)
 #         pageChange = ReadSensorOutput()
 #         pageChange = ReadKeyboardInput()
         key = pageShow(img, mat)
