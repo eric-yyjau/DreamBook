@@ -84,9 +84,17 @@ def pageShow (img, mat) :
 #     filename = imageFile + '-' + str(pageNumber) + '.jpg'
 #     img = ReadImg(filename)
     # Open CV code for transformation
+    start = time.time()
     img = cv2.warpPerspective(img, mat, (proj_w, proj_h))
+    print("time warping: ", time.time()-start)
+
+    start = time.time()
     cv2.imshow(fr_trans, img)
+    print("time show: ", time.time()-start)
+    start = time.time()
     key = cv2.waitKey(1)
+    print("time waitkey: ", time.time()-start)
+
     return key
     
 def initFrame(frameName):
