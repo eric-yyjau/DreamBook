@@ -80,6 +80,10 @@ def imgResize(img):
     img = cv2.resize(img, (int(width/ratio), int(height/ratio)))
     return img
 
+def pageWarp(img, mat):
+    img = cv2.warpPerspective(img, mat, (proj_w, proj_h))
+    return img
+
 def pageShow (img, mat) :
 #     filename = imageFile + '-' + str(pageNumber) + '.jpg'
 #     img = ReadImg(filename)
@@ -216,6 +220,7 @@ def ReadBook (pdfFile) :
     page_action = []
     file = PdfFile()
     totalPages = file.readFile(pdfFile)
+    allPages = file.getAllPgs()
     print("total: ", totalPages)
     if totalPages < 1:
         return -1
@@ -225,6 +230,9 @@ def ReadBook (pdfFile) :
     # calibration
     mat = np.identity(3)
     mat = calibration(img)
+    # warp images
+    allPages = [pageWarp(img, mat) for img in allPages]
+
     print("img shape: ", img.shape)
     pageShow(img, mat)
     pageChange = 0
@@ -253,7 +261,8 @@ def ReadBook (pdfFile) :
             pageNumber = pageNumber + 1
             print(pageNumber)
             start = time.time()
-            img = file.readPage(pageNumber)
+            # img = file.readPage(pageNumber)
+            img = allPages[pageNumber]
             print("time read: ", time.time()-start)
             start = time.time()
             img = imgResize(img)
