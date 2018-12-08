@@ -54,4 +54,5 @@ if __name__ == '__main__':
         if key == 27:
             print("stop")
             break
+        time.sleep(0.1)
         # else if key == 

@@ -33,7 +33,7 @@ def ReadSensor():
             
             
 
-        if state == "hit_one" :
+        if state == "hit_one" and detectPage:
             if time.time()-start_ts > 2.0:
                 state = "hit_two"
                 A_val = "temp"
