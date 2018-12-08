@@ -13,17 +13,24 @@ class PdfFile:
     def readFile(self, filename):
         self.pages = convert_from_path(filename)
         self.totalPgs = len(self.pages)
+        self.convertPgs()
         return self.totalPgs
 
     def readPage(self, pageNum):
         if pageNum >= 0 and pageNum < self.totalPgs:
-            img = cv2.cvtColor(np.array(self.pages[pageNum]), cv2.COLOR_RGB2BGR)
+            # img = cv2.cvtColor(np.array(self.pages[pageNum]), cv2.COLOR_RGB2BGR)
+            img = self.pages[pageNum]
             return img
         else:
             print("out of range")
             return []
+    def convertPgs (self):
+        for i in range(self.totalPgs):
+            self.pages[i] = cv2.cvtColor(np.array(self.pages[i]), cv2.COLOR_RGB2BGR)
     def getTotalPgs(self):
         return self.totalPgs
+    def getAllPgs(self):
+        return self.pages
 
 
 
