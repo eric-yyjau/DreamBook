@@ -31,7 +31,12 @@ cd src
 python3 DreamBook_merged.py
 ```
 
+### Final version
+![alt text](img/final_work.jpg)
+
 ### Demo video
+https://youtu.be/nPrNhHzFVm0
+
 
 ### Team Members
 | Name               | PID       | Email                 | Class  |
