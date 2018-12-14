@@ -32,7 +32,7 @@ python3 DreamBook_merged.py
 ```
 
 ### Final version
-![](img/final_work.jpg | width=100)
+![alt text](img/final_work.jpg)
 
 ### Demo video
 https://youtu.be/nPrNhHzFVm0
