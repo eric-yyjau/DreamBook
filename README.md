@@ -33,6 +33,8 @@ python3 DreamBook_merged.py
 
 ### Final version
 ![alt text](img/final_work.jpg)
+<img src="img/final_work.jpg" width="120">
+
 
 ### Demo video
 https://youtu.be/nPrNhHzFVm0
