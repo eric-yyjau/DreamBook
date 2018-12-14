@@ -6,7 +6,7 @@
 Dream Book
 
 ### Web page
-https://eric-yyjau.github.io/DreamBook/
+https://github.com/eric-yyjau/DreamBook
 
 ### Github page
 https://github.com/eric-yyjau/DreamBook
@@ -23,13 +23,15 @@ https://paper.dropbox.com/doc/Group-CSE218-Advanced-Topic-on-Software-Engineerin
 ```
 cd src
 chmod +x setup.sh
-
+./setup.sh
 ```
 - Run code
 ```
 cd src
 python3 DreamBook_merged.py
 ```
+
+### Demo video
 
 ### Team Members
 | Name               | PID       | Email                 | Class  |
