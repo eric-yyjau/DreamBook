@@ -3,7 +3,7 @@
 ## Ubiquitous Computing/ Software Engineering (CSE118/218) - Fall 2018
 
 ### Project Name
-Dream Book
+DreamBook: Physical E-book
 
 ### Web page
 https://github.com/eric-yyjau/DreamBook
